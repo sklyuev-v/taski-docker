@@ -2,10 +2,8 @@ volumes:
   pg_data:
   static:
 
-# Перечень контейнеров
 services:
   db:
-    # Из какого образа запустить контейнер:
     image: postgres:13.10
     env_file: .env
     volumes:
@@ -13,14 +11,16 @@ services:
   backend:
     build: ./backend/
     env_file: .env
+    volumes:
+      - static:/backend_static
     depends_on:
       - db
   frontend:
     env_file: .env
     build: ./frontend/
-    command: cp -r /app/build/. /static/
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/static
+      - static:/frontend_static
   gateway:
     build: ./gateway/
     env_file: .env
@@ -29,4 +29,4 @@ services:
     ports:
       - 8000:80
     volumes:
-      - static:/static
+      - static:/static/
