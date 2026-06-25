@@ -1,6 +1,6 @@
 volumes:
   pg_data:
-  static_volume:
+  static:
 
 services:
   db:
@@ -12,15 +12,15 @@ services:
     image: sklyevv/taski_backend
     env_file: .env
     volumes:
-      - static_volume:/backend_static
+      - static:/backend_static
     depends_on:
       - db
   frontend:
-    image: sklyevv/taski_frontend
     env_file: .env
-    command: cp -r /app/build/. /frontend_static/
+    image: sklyevv/taski_frontend
+    command: cp -r /app/build/. /frontend_static
     volumes:
-      - static_volume:/frontend_static
+      - static:/frontend_static
   gateway:
     image: sklyevv/taski_gateway
     env_file: .env
@@ -29,4 +29,4 @@ services:
     ports:
       - 8000:80
     volumes:
-      - static_volume:/static
+      - static:/static/
