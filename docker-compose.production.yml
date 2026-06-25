@@ -1,6 +1,6 @@
 volumes:
   pg_data:
-  static:
+  static_volume:
 
 services:
   db:
@@ -12,7 +12,7 @@ services:
     image: sklyevv/taski_backend
     env_file: .env
     volumes:
-      - static:/backend_static
+      - static_volume:/backend_static
     depends_on:
       - db
   frontend:
