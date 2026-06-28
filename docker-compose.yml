@@ -4,11 +4,13 @@ volumes:
 
 services:
   db:
+    restart: unless-stopped
     image: postgres:13.10
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
   backend:
+    restart: unless-stopped
     build: ./backend/
     env_file: .env
     volumes:
@@ -16,12 +18,14 @@ services:
     depends_on:
       - db
   frontend:
+    restart: unless-stopped
     env_file: .env
     build: ./frontend/
     command: cp -r /app/build/. /frontend_static
     volumes:
       - static:/frontend_static
   gateway:
+    restart: unless-stopped
     build: ./gateway/
     env_file: .env
     depends_on:
